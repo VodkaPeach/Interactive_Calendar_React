@@ -6,7 +6,7 @@ import App from './App';
 
 const DATA = [];
 for(let i=1; i<=42;i++) {
-  DATA.push({id:`day-${i}`, name:`day-${i}`})
+  DATA.push({id:`day-${i}`, name:`day-${i}`, isToday:true, hasEvent:true, isSelected:true})
 }
 const EVENTS = [{id:`todo-0`, name: "Eat"}, {id:"todo-1", name:"sleep"}
 ];
@@ -14,7 +14,7 @@ const EVENTS = [{id:`todo-0`, name: "Eat"}, {id:"todo-1", name:"sleep"}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App dayList={DATA} eventList={EVENTS}/>
+    <App dayList={DATA} eventList={EVENTS} displayMode="Week"/>
   </React.StrictMode>
 );
 
