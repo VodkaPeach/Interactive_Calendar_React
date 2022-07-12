@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+//import { nanoid } from "nanoid"
+import Day from "./components/Day"
+import Event from "./components/Event"
 
-function App() {
+
+function App(props) {
+  const days = props.dayList.map(day=><Day id={day.id} name={day.name}/>)
+  const events = props.eventList.map(event=><Event id={event.id} name={event.name}/>)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="calendarApp stack-large">
+      <section className="topBar">
+        <div className="todayDate">
+          <button>Today's date.</button>
+        </div>
+        <div className="searchBar">
+          <button>Search.</button>
+        </div>
+        <div className="functionalities">
+          <button>Extra Functionalities.</button>
+        </div>
+        <div className="courseMode">
+          <button>Course Mode</button>
+        </div>
+      </section>
+      <div className="grid">
+          <div>One</div>
+          <div>Two</div>
+          <div>Three</div>
+          <div>Four</div>
+          <div>Five</div>
+          <div>Six</div>
+          <div>Seven</div>
+          {days}
+        </div>
+      <div className="events">
+        <h2>Events</h2>
+        {events}
+      </div>
+    </main>
   );
 }
 
