@@ -5,6 +5,7 @@ Date.prototype.toTemporalInstant = toTemporalInstant;
 function Form(props){
     const today=Temporal.Now.plainDateISO().toString();
     const [day, setDay] = useState(today);
+    const [isToday, setIsToday] = useState(true);
     
     function handleChange(e){
         setDay(e.target.value);
@@ -12,12 +13,24 @@ function Form(props){
     function handleSubmit(e){
         e.preventDefault();
         props.clickDay(day);
+        setIsToday(day===today);
     }
     
     const dayPicker=(
       <input type="date" value={day} onChange={handleChange}/>
     );
 
+    const dayReturn=(
+        <button onClick={()=>setDay(today)}>
+          Return to today
+        </button>
+      );
+
+    const goBack = (
+        <form onSubmit={handleSubmit}>
+                {dayReturn}
+        </form>
+    );
     
     /* const searchBar=(
         <input
@@ -54,6 +67,7 @@ function Form(props){
                 </button>
             </form>
             </div> */}
+            {isToday? <span></span> : goBack}
         </div>
     );
 }

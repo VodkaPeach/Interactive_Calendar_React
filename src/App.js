@@ -1,10 +1,8 @@
 //import { nanoid } from "nanoid"
-import Day from "./components/Day";
 import Event from "./components/Event";
 import Form from "./components/Form";
 import Week from "./components/Week";
 import Month from "./components/Month";
-import Return from "./components/Return";
 import ModeButton from "./components/ModeButton";
 import React, { useState } from "react";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
@@ -27,7 +25,7 @@ function App(props) {
   
   
   const selectDate=(<Form giveDay={gDay} clickDay={clickDay}/>);
-  const backToday=(<Return clickDay={clickDay}/>);
+  //const backToday=(<Return clickDay={clickDay}/>);
   const monthDisplay = (<Month giveDay={gDay}/>);
 
   const events = props.eventList.map(event=><Event id={event.id} name={event.name}/>)
@@ -62,7 +60,7 @@ function App(props) {
           {selectDate}
         </div>
         {modeSwitch}
-        {backToday}
+        {/* {backToday} */}
       </section>
       {/* {monthDisplay} */}
       {grid}
