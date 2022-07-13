@@ -17,6 +17,7 @@ main{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: minmax(50px, auto);
+  margin-bottom: 1%;
 }
 .gridWeek{
   height: 70%;
@@ -80,4 +81,19 @@ main{
 .ts12{
   grid-column: 1;
   grid-row: 13;
+}
+
+.event_top_bar{
+  display: flex;
+}
+
+.event_top_bar .query{
+  display: flex;
+}
+
+h2{
+  margin: 5px;
+}
+.todayDate .query{
+  display: flex;
 }

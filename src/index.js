@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
+Date.prototype.toTemporalInstant = toTemporalInstant;
 // import reportWebVitals from './reportWebVitals';
 
 const DATA = [];
@@ -14,7 +16,7 @@ const EVENTS = [{id:`todo-0`, name: "Eat"}, {id:"todo-1", name:"sleep"}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App dayList={DATA} eventList={EVENTS} displayMode="Week"/>
+    <App dayList={DATA} eventList={EVENTS} displayMode="Month"/>
   </React.StrictMode>
 );
 

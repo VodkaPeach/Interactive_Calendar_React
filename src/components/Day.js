@@ -3,10 +3,15 @@
 function Day(props){
     //const [isToday, setIsToday] = useState(false);
     // const [hasEvent, setHasEvent] = useState(false);
-    const txtColor=props.hasEvent?"yellow":"black";
-    const bgColor=props.isToday?"blue":"white";
+    let txtColor="black";
+    const bgColor=props.isToday?"lightblue":"white";
     const bdColor=props.isSelected?"red":"black";
+    const textDeco=props.hasEvent?"dotted":"none"; 
+    if(!props.isInThisMonth){
+        txtColor="darkgray";
+    }
     const divStyle={
+        fontSize: "large",
         color: txtColor,
         backgroundColor: bgColor,
         borderColor:bdColor,
@@ -14,7 +19,7 @@ function Day(props){
 
     const chosen=(
         <button className="dayBtn" style={divStyle}>
-        {props.name}
+            {props.name}
         </button>
     );
     return (

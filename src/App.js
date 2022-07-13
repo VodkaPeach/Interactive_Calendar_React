@@ -1,13 +1,41 @@
 //import { nanoid } from "nanoid"
-import Day from "./components/Day"
-import Event from "./components/Event"
+import Day from "./components/Day";
+import Event from "./components/Event";
+import Form from "./components/Form";
+import Week from "./components/Week";
+import Month from "./components/Month";
+import Return from "./components/Return";
+import ModeButton from "./components/ModeButton";
+import React, { useState } from "react";
+import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
+Date.prototype.toTemporalInstant = toTemporalInstant;
+
 
 
 function App(props) {
+  const today = Temporal.Now.plainDateISO().toString();
+  const [mode, setMode] = useState("Month");
+  const [gDay, setGDay] = useState(today);
 
-  const days = props.dayList.map(day=><Day id={day.id} name={day.name} isToday={day.isToday} 
-  hasEvent={day.hasEvent} isSelected={day.isSelected}/>)
+  function toggleMode(mode){
+    setMode(mode);
+  }
+
+  function clickDay(day){
+    setGDay(day);
+  }
+  
+  
+  const selectDate=(<Form giveDay={gDay} clickDay={clickDay}/>);
+  const backToday=(<Return clickDay={clickDay}/>);
+  const monthDisplay = (<Month giveDay={gDay}/>);
+
   const events = props.eventList.map(event=><Event id={event.id} name={event.name}/>)
+  const week = (<Week />)
+  const modeSwitch = (
+    <ModeButton toggleMode={toggleMode}/>
+  );
+  
   let grid=(
     <div className="gridMonth">
     <div>Mon</div>
@@ -17,74 +45,36 @@ function App(props) {
     <div>Fri</div>
     <div>Sat</div>
     <div>Sun</div>
-    {days}
+    {monthDisplay}
     </div>
   );
+
   
- if(props.displayMode==="Week"){
-    grid=(
-      <div className="gridWeek">
-      <div></div>
-      <div>Mon</div>
-      <div>Tue</div>
-      <div>Wed</div>
-      <div>Thu</div>
-      <div>Fri</div>
-      <div>Sat</div>
-      <div>Sun</div>
-      <div className="ts1">9:00</div>
-      <div className="ts2">10:00</div>
-      <div className="ts3">11:00</div>
-      <div className="ts4">12:00</div>
-      <div className="ts5">13:00</div>
-      <div className="ts6">14:00</div>
-      <div className="ts7">15:00</div>
-      <div className="ts8">16:00</div>
-      <div className="ts9">17:00</div>
-      <div className="ts10">18:00</div>
-      <div className="ts11">19:00</div>
-      <div className="ts12">20:00</div>
-      </div>
-    );
-  }else if(props.displayMode==="Course"){
-    <div className="gridCourse">
-    <div></div>
-    <div>Mon</div>
-    <div>Tue</div>
-    <div>Wed</div>
-    <div>Thu</div>
-    <div>Fri</div>
-    <div>Sat</div>
-    <div>Sun</div>
-    </div>
+ if(mode==="Week"){
+    grid=(week);
+  }else if(mode==="Course"){
+    grid=(week);
   }
   return (
     <main className="calendarApp stack-large">
       <section className="topBar">
         <div className="todayDate">
-          <button>Today's date.</button>
+          {selectDate}
         </div>
-        <div className="searchBar">
-          <button>Search.</button>
+        {modeSwitch}
+        {backToday}
+      </section>
+      {/* {monthDisplay} */}
+      {grid}
+      <section className="event_top_bar">
+        <div>
+          <h2>Events</h2>
         </div>
-        <div className="Month">
-          <button>Month</button>
-        </div>
-        <div className="Week">
-          <button>Week</button>
-        </div>
-        <div className="courseMode">
-          <button>Course Mode</button>
-        </div>
-        <div className="functionalities">
-          <button>Extra Functionalities.</button>
+        <div className="query">
+          {/* <h2>{selectDate}</h2> */}
         </div>
       </section>
-      {grid}
-      <div className="events">
-        <h2>Events</h2>
-        {events}
-      </div>
+      {events}
     </main>
   );
 }
