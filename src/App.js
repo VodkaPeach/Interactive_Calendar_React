@@ -1,6 +1,5 @@
 //import { nanoid } from "nanoid"
 import Event from "./components/Event";
-import Form from "./components/Form";
 import Week from "./components/Week";
 import Month from "./components/Month";
 import ModeButton from "./components/ModeButton";
@@ -85,11 +84,11 @@ function handleChange(e){
 }
 
 //const selectDate=(<Form gDay={gDay} clickDay={clickDay}/>);
-const monthDisplay = (<Month gDay={gDay} clickDay={clickDay} generateData={generateData}/>);
-const events = props.eventList.map(event=><Event id={event.id} name={event.name}/>)
-const week = (<Week />)
+const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData}/>);
+const events = props.eventList.map(event=><Event id={event.id} key={event.id} name={event.name}/>)
+const week = (<Week id={"weekDisplay"} key={"WeekDisplay"} />)
 const modeSwitch = (
-  <ModeButton toggleMode={toggleMode}/>
+  <ModeButton id={"modeButton"} key={"modeButton"} toggleMode={toggleMode}/>
 );
 
 let grid;
