@@ -7,6 +7,7 @@ import ModeButton from "./components/ModeButton";
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
+import { click } from "@testing-library/user-event/dist/click";
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
 
@@ -47,7 +48,7 @@ function generateData(){
   const ButtonList = [];
 
   for (let i=1, j=daysInLastMonth-startDayOfMonth+2; i<startDayOfMonth;i++, j++){
-      const day = buildData(`${i}`+nanoid(), j, false, false, false, false);
+      const day = buildData(`${i}`+nanoid(), j, false, false, false, "last");
       ButtonList.push(day)
   }
   
@@ -56,16 +57,16 @@ function generateData(){
       if (i+1===Number(today)&&isThisMonth){
         isTd=true;
       }
-      if (String(i+1)===gDay.slice(8,10)){
+      if (i+1===Number(gDay.slice(8,10))){
         isSl=true
       }
-      const day = buildData(String(i+startDayOfMonth)+nanoid(), i+1, isTd, false, isSl, true);
+      const day = buildData(String(i+startDayOfMonth)+nanoid(), i+1, isTd, false, isSl, "this");
       isTd=isSl=false;
       ButtonList.push(day);
   }
 
-  for (let i=ButtonList.length, j=1; i<42; i++, j++){
-      const day = buildData(String(i)+nanoid(), j, false, false, false, false);
+  for (let i=ButtonList.length, j=1; i<35; i++, j++){
+      const day = buildData(String(i)+nanoid(), j, false, false, false, "next");
       ButtonList.push(day);
   }
  
@@ -79,10 +80,12 @@ function toggleMode(mode){
 function clickDay(day){
   setGDay(day);
 }
+function handleChange(e){
+  setGDay(e.target.value);
+}
 
-
-const selectDate=(<Form giveDay={gDay} clickDay={clickDay}/>);
-const monthDisplay = (<Month generateData={generateData}/>);
+//const selectDate=(<Form gDay={gDay} clickDay={clickDay}/>);
+const monthDisplay = (<Month gDay={gDay} clickDay={clickDay} generateData={generateData}/>);
 const events = props.eventList.map(event=><Event id={event.id} name={event.name}/>)
 const week = (<Week />)
 const modeSwitch = (
@@ -96,13 +99,25 @@ if(mode==="Week"){
   grid=(week);
 }
 else grid = monthDisplay;
+
+const goBack = (
+  <button onClick={()=>setGDay(todayDate)}>
+    Return to Today
+  </button>
+);
+
+const dayPicker=(
+  <input type="date" value={gDay} onChange={handleChange}/>
+);
+
 return (
   <main className="calendarApp stack-large">
     <section className="topBar">
       <div className="todayDate">
-        {selectDate}
+        {dayPicker}
       </div>
       {modeSwitch}
+      {gDay===todayDate? <span></span> : goBack}
     </section>
     {grid}
     <section className="event_top_bar">
