@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function Day(props){
-    
     // const [hasEvent, setHasEvent] = useState(false);
     let txtColor="black";
     const bgColor=props.isToday?"lightblue":"white";

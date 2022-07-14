@@ -21,7 +21,7 @@ const isThisMonth = thisMonth===gDay.slice(5,7);
 
 
 function generateData(){
-  /* // {givenDate} is a string of ISO8062, the selected day.
+  // {givenDate} is a string of ISO8062, the selected day.
   const givenDate = new Date(gDay);
   // The day of the start of the month of the selected day.
   const startOfMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 1).getDay();
@@ -34,12 +34,12 @@ function generateData(){
 
   function buildData(id, name, isToday, hasEvent, isSelected, isInThisMonth) {
     const day={
-      id:{id},
-      name:{name},
-      isToday:{isToday},
-      hasEvent:{hasEvent},
-      isSelected:{isSelected},
-      isInThisMonth:{isInThisMonth},
+      id:id,
+      name:name,
+      isToday:isToday,
+      hasEvent:hasEvent,
+      isSelected:isSelected,
+      isInThisMonth:isInThisMonth,
     };
     return day;
   }
@@ -47,15 +47,20 @@ function generateData(){
   const ButtonList = [];
 
   for (let i=1, j=daysInLastMonth-startDayOfMonth+2; i<startDayOfMonth;i++, j++){
-      const day = buildData(String(i)+nanoid(), j, false, false, false, false);
+      const day = buildData(`${i}`+nanoid(), j, false, false, false, false);
       ButtonList.push(day)
   }
   
+  let isTd, isSl = false;
   for (let i=0; i<daysInMonth;i++){
-      const day = buildData(String(i+startDayOfMonth)+nanoid(), i+1, false, false, false, true);
       if (i+1===Number(today)&&isThisMonth){
-          day.isToday=true;
+        isTd=true;
       }
+      if (String(i+1)===gDay.slice(8,10)){
+        isSl=true
+      }
+      const day = buildData(String(i+startDayOfMonth)+nanoid(), i+1, isTd, false, isSl, true);
+      isTd=isSl=false;
       ButtonList.push(day);
   }
 
@@ -63,9 +68,9 @@ function generateData(){
       const day = buildData(String(i)+nanoid(), j, false, false, false, false);
       ButtonList.push(day);
   }
- */
-  const ButtonList = [{id:`todo`, name:"1", isToday:false, hasEvent:false, isSelected:false, isInThisMonth:false }, 
-  {id:`todo2`, name:"12", isToday:false,hasEvent:false, isSelected:false, isInThisMonth:false }];
+ 
+  /* const ButtonList = [{id:`todo`, name:"1", isToday:false, hasEvent:false, isSelected:false, isInThisMonth:false }, 
+  {id:`todo2`, name:"12", isToday:false,hasEvent:false, isSelected:false, isInThisMonth:false }]; */
   return ButtonList;
 }
 function toggleMode(mode){
