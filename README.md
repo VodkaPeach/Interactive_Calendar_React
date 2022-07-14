@@ -1,6 +1,8 @@
-# An interactive single page Calendar implemented with React. I am using it for familiarizing React and other front-end web development techniques.
-# You are welcome to clone, have a look, play around and make your own changes!
-# This project is multiphased. I will continue to update its functionalities as I learn.
+# A interactive single page Calendar implemented with React.
+
+## I am using it for familiarizing React and other front-end web development techniques. You are welcome to clone, have a look, play around and make your own changes! This project is multiphased. I will continue to update its functionalities as I learn. You can contact me at 1293379294@qq.com.
+
+
 ## Phase Log:
 
 ### Phase 1:
