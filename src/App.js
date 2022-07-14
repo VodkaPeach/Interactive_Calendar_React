@@ -63,7 +63,7 @@ function App(props) {
         {/* {backToday} */}
       </section>
       {/* {monthDisplay} */}
-      {grid}
+      {monthDisplay}
       <section className="event_top_bar">
         <div>
           <h2>Events</h2>

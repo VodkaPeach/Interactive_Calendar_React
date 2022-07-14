@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 function Day(props){
-    const [isHover, setIsHover] = useState(false);
+    
     // const [hasEvent, setHasEvent] = useState(false);
     let txtColor="black";
     const bgColor=props.isToday?"lightblue":"white";
     const bdColor=props.isSelected?"red":"black";
-    const hoverColor=isHover?"lightcoral":bdColor;
+    const [isHover, setIsHover] = useState(bdColor);
 
     if(!props.isInThisMonth){
         txtColor="darkgray";
@@ -15,12 +15,12 @@ function Day(props){
         fontSize: "large",
         color: txtColor,
         backgroundColor: bgColor,
-        borderColor:hoverColor,
+        borderColor:isHover,
     };
 
     const chosen=(
-        <button className="dayBtn" style={divStyle}
-        onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=>setIsHover(false)}>
+        <button id={props.id} className="dayBtn" style={divStyle}
+        onMouseEnter={()=>setIsHover("lightcoral")} onMouseLeave={()=>setIsHover(bdColor)}>
             {props.name}
         </button>
     );
