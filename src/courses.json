@@ -1,0 +1,7 @@
+{
+    "courses":
+    [
+        {"name": "STA313 LEC-0101", "block": [[1, 2,3]], "classroom": "BA 1190"},
+        {"name": "CSC384 LEC-0101", "block": [[1, 2,3], [3, 2,3], [5, 2,3]], "classroom": "BA 1170"}
+    ]
+}

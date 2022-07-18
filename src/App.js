@@ -6,7 +6,7 @@ import ModeButton from "./components/ModeButton";
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
-import { click } from "@testing-library/user-event/dist/click";
+import Course from "./components/course/course";
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
 
@@ -121,12 +121,12 @@ return (
     {grid}
     <section className="event_top_bar">
       <div>
-        <h2>Events</h2>
+        <h2>{mode==="Course"?"Courses":"Events"}</h2>
       </div>
       <div className="query">
       </div>
     </section>
-    {events}
+    {mode==="Course"?<Course data={require('./courses.json')}/>: events}
   </main>
 );
 }
