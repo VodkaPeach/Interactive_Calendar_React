@@ -7,6 +7,10 @@ import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
 import Course from "./components/course/course";
+import Register from "./components/Register";
+import { Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
 
@@ -137,6 +141,9 @@ function App(props) {
         </div>
         {modeSwitch}
         {gDay === todayDate ? <span></span> : goBack}
+        <div className="Account">
+          <a href="/Account">Register/Login</a>
+        </div>
       </section>
       {grid}
       <section className="event_top_bar">
@@ -147,6 +154,7 @@ function App(props) {
         </div>
       </section>
       {mode === "Course" ? <Course data={require('./courses.json')} /> : events}
+
     </main>
   );
 }
