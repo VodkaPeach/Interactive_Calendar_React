@@ -80,7 +80,7 @@ export default function EventAdd() {
                 </Form.Group>
 
                 <Form.Group controlId="formBasicEndTime">
-                    <Form.Label>EndTime address</Form.Label>
+                    <Form.Label>End Time</Form.Label>
                     <Form.Control type="endTime"
                         name="end time"
                         value={endTime}
@@ -92,7 +92,7 @@ export default function EventAdd() {
 
                 {/* password */}
                 <Form.Group controlId="formBasicDescription">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Description</Form.Label>
                     <Form.Control type="description"
                         name="description"
                         value={description}

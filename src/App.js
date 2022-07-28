@@ -111,14 +111,10 @@ function App(props) {
 
   // Month Display.
   const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData} />);
-  
-  console.log(USER);
-
-  console.log(EVENTS);
 
   // Events
-  const events = EVENTS ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
-    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>) : null;
+  const events = EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
+    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>);
   
   // Week Display.
   const week = (<Week id={"weekDisplay"} key={"WeekDisplay"} />)
@@ -127,7 +123,7 @@ function App(props) {
   const modeSwitch = (
     <ModeButton id={"modeButton"} key={"modeButton"} toggleMode={toggleMode} />
   );
-
+  console.log(EVENTS);
 
   let grid = monthDisplay;
   if (mode === "Week") {
