@@ -7,9 +7,14 @@ import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
 import Course from "./components/course/course";
+import EventAdd from "./components/EventAdd";
 import Register from "./components/Register";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+const USER = cookies.get("USER");
+const EVENTS = cookies.get("EVENTS")
 
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
@@ -42,6 +47,8 @@ function App(props) {
     const daysInMonth = new Date(givenDate.getFullYear(), givenDate.getMonth() + 1, 0).getDate();
     // number of days in last month.
     const daysInLastMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 0).getDate();
+    //
+    const eventsInThisMonth = EVENTS.filter(event=>event.date.slice(5,7)===gDay.slice(5,7));
 
     function buildData(id, name, isToday, hasEvent, isSelected, isInThisMonth) {
       const day = {
@@ -61,16 +68,18 @@ function App(props) {
       const day = buildData(`${i}` + nanoid(), j, false, false, false, "last");
       ButtonList.push(day)
     }
-
+    
     let isTd, isSl = false;
     for (let i = 0; i < daysInMonth; i++) {
+      const eventI = eventsInThisMonth.filter(event => Number(event.date.slice(8,10))===i+1);
+
       if (i + 1 === Number(today) && isThisMonth) {
         isTd = true;
       }
       if (i + 1 === Number(gDay.slice(8, 10))) {
         isSl = true
       }
-      const day = buildData(String(i + startDayOfMonth) + nanoid(), i + 1, isTd, false, isSl, "this");
+      const day = buildData(String(i + startDayOfMonth) + nanoid(), i + 1, isTd, eventI.length > 0, isSl, "this");
       isTd = isSl = false;
       ButtonList.push(day);
     }
@@ -79,7 +88,6 @@ function App(props) {
       const day = buildData(String(i) + nanoid(), j, false, false, false, "next");
       ButtonList.push(day);
     }
-
     /* const ButtonList = [{id:`todo`, name:"1", isToday:false, hasEvent:false, isSelected:false, isInThisMonth:false }, 
     {id:`todo2`, name:"12", isToday:false,hasEvent:false, isSelected:false, isInThisMonth:false }]; */
     return ButtonList;
@@ -104,8 +112,13 @@ function App(props) {
   // Month Display.
   const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData} />);
   
+  console.log(USER);
+
+  console.log(EVENTS);
+
   // Events
-  const events = props.eventList.map(event => <Event id={event.id} key={event.id} name={event.name} />)
+  const events = EVENTS ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
+    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>) : null;
   
   // Week Display.
   const week = (<Week id={"weekDisplay"} key={"WeekDisplay"} />)
@@ -144,6 +157,9 @@ function App(props) {
         <div className="Account">
           <a href="/Account">Register/Login</a>
         </div>
+        <div className="Account">
+          <p>{USER.username}</p>
+        </div>
       </section>
       {grid}
       <section className="event_top_bar">
@@ -154,7 +170,7 @@ function App(props) {
         </div>
       </section>
       {mode === "Course" ? <Course data={require('./courses.json')} /> : events}
-
+      <EventAdd />
     </main>
   );
 }

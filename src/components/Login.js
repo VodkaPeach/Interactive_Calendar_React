@@ -24,8 +24,9 @@ export default function Login() {
         .then((result) => {
             setLogin(true);
             cookies.set("USER", result.data.user, {path: "/"});
-            console.log(result.data.events);
-            //window.location.href = "/";
+            cookies.set("EVENTS", result.data.events, {path: "/"});
+            //console.log(result.data.events);
+            window.location.href = "/";
         })
         .catch((error) => {
             error=new Error();

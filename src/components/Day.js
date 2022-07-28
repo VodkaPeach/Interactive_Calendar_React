@@ -3,6 +3,7 @@ import React, { useState } from "react";
 function Day(props) {
     // const [hasEvent, setHasEvent] = useState(false);
     let txtColor = "black";
+    const fontWeight = props.hasEvent ? "bold" : "normal";
     const bgColor = props.isToday ? "lightblue" : "white";
     const bdColor = props.isSelected ? "red" : "black";
     const [isHover, setIsHover] = useState(bdColor);
@@ -17,6 +18,7 @@ function Day(props) {
     const divStyle = {
         fontSize: "large",
         color: txtColor,
+        fontWeight: fontWeight,
         backgroundColor: bgColor,
         borderColor: isHover,
     };
