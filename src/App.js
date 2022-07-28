@@ -108,13 +108,14 @@ function App(props) {
     e.preventDefault();
     setGDay(e.target.value);
   }
+  //console.log(EVENTS);
 
   // Month Display.
   const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData} />);
 
   // Events
-  const events = EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
-    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>);
+  const events = EVENTS ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
+    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>) : null;
   
   // Week Display.
   const week = (<Week id={"weekDisplay"} key={"WeekDisplay"} />)
@@ -123,7 +124,7 @@ function App(props) {
   const modeSwitch = (
     <ModeButton id={"modeButton"} key={"modeButton"} toggleMode={toggleMode} />
   );
-  console.log(EVENTS);
+
 
   let grid = monthDisplay;
   if (mode === "Week") {
@@ -166,7 +167,7 @@ function App(props) {
         </div>
       </section>
       {mode === "Course" ? <Course data={require('./courses.json')} /> : events}
-      <EventAdd />
+      <EventAdd name="Add" />
     </main>
   );
 }

@@ -4,9 +4,9 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 const USER = cookies.get("USER");
-const EVENTS = cookies.get("EVENTS")
+let EVENTS = cookies.get("EVENTS")
 
-export default function EventAdd() {
+export default function EventAdd(props) {
     const [name, setName] = useState("");
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState(""); 
@@ -19,20 +19,27 @@ export default function EventAdd() {
         // set configurations
         const configuration = {
             method: "post",
-            url: "https://calendar-hongxu.herokuapp.com/add-event",
+            url: `https://calendar-hongxu.herokuapp.com/${props.name.toLowerCase()}-event`,
             data: {
                 name,
                 date,
                 startTime,
                 endTime,
                 description,
-                creator: USER
+                creator: USER,
+                // for edit.
+                id: props.id,
             },
         };
         axios(configuration)
         .then((result) => {
-            setAdd(true);
-            EVENTS.push(result.data.result);
+            if (props.name==="Add"){
+                setAdd(true);
+                EVENTS.push(result.data.result);
+            }else{
+                EVENTS=EVENTS.filter(event=>event._id!==props.id);
+                EVENTS.push(result.data.event);
+            }
             cookies.set("EVENTS", EVENTS, {path: "/"});
             window.location.href="/";
         })
@@ -43,7 +50,7 @@ export default function EventAdd() {
 
     return (
         <>
-            <h2>Add Event</h2>
+            <h2>{props.name} Event</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
                 {/* email */}
                 <Form.Group controlId="formBasicName">
@@ -105,12 +112,6 @@ export default function EventAdd() {
                     onClick={(e) => handleSubmit(e)}>
                     Submit
                 </Button>
-                {/* display success message */}
-                {add ? (
-                    <p className="text-success">Event added Successfully</p>
-                ) : (
-                    <p className="text-danger">Error adding event</p>
-                )}
             </Form>
         </>
     )

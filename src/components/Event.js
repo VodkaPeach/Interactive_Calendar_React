@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import EventAdd from "./EventAdd";
 const cookies = new Cookies();
 let EVENTS = cookies.get("EVENTS")
 
 function Event(props) {
+  const [isEditing, setIsEditing] = useState(false);
+
   function handleClick() {
     const configuration = {
       method: "post",
@@ -37,6 +40,7 @@ function Event(props) {
         {props.name}
       </div>
       {deleteButton}
+      <EventAdd name="Edit" id={props.id}/>
     </>
 
   );
