@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [login, setLogin] = useState(false);
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // set configurations
         const configuration = {
@@ -18,9 +21,11 @@ export default function Login() {
             },
         };
         axios(configuration)
-        .then(() => {
+        .then((result) => {
             setLogin(true);
-            window.location.href = "/";
+            cookies.set("USER", result.data.user, {path: "/"});
+            console.log(result.data.events);
+            //window.location.href = "/";
         })
         .catch((error) => {
             error=new Error();
