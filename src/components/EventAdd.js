@@ -112,6 +112,8 @@ export default function EventAdd(props) {
                     onClick={(e) => handleSubmit(e)}>
                     Submit
                 </Button>
+
+                {props.name==="Add" && <button onClick={() => props.handleCancel()}>Cancel</button>}
             </Form>
         </>
     )

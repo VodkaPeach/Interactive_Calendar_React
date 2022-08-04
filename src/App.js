@@ -5,17 +5,15 @@ import Month from "./components/Month";
 import ModeButton from "./components/ModeButton";
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
-import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
+import { Temporal, Intl, toTemporalInstant } from "@js-temporal/polyfill";
 import Course from "./components/course/course";
 import EventAdd from "./components/EventAdd";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 const USER = cookies.get("USER");
-const EVENTS = cookies.get("EVENTS")
+const EVENTS = cookies.get("EVENTS");
 
 Date.prototype.toTemporalInstant = toTemporalInstant;
-
-
 
 function App(props) {
   // Today's date in ISO string
@@ -35,20 +33,37 @@ function App(props) {
   // login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [adding, setAdding] = useState(false);
+
+
 
   function generateData() {
     // {givenDate} is a string of ISO8062, the selected day.
     const givenDate = new Date(gDay);
     // The day of the start of the month of the selected day.
-    const startOfMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 1).getDay();
+    const startOfMonth = new Date(
+      givenDate.getFullYear(),
+      givenDate.getMonth(),
+      1
+    ).getDay();
     // Mon=1, SUN=7.
-    const startDayOfMonth = (startOfMonth === 0) ? 7 : startOfMonth;
+    const startDayOfMonth = startOfMonth === 0 ? 7 : startOfMonth;
     // number of days in that month.
-    const daysInMonth = new Date(givenDate.getFullYear(), givenDate.getMonth() + 1, 0).getDate();
+    const daysInMonth = new Date(
+      givenDate.getFullYear(),
+      givenDate.getMonth() + 1,
+      0
+    ).getDate();
     // number of days in last month.
-    const daysInLastMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 0).getDate();
+    const daysInLastMonth = new Date(
+      givenDate.getFullYear(),
+      givenDate.getMonth(),
+      0
+    ).getDate();
     //
-    const eventsInThisMonth = isLoggedIn? EVENTS.filter(event=>event.date.slice(5,7)===gDay.slice(5,7)):null;
+    const eventsInThisMonth = isLoggedIn
+      ? EVENTS.filter((event) => event.date.slice(5, 7) === gDay.slice(5, 7))
+      : null;
 
     function buildData(id, name, isToday, hasEvent, isSelected, isInThisMonth) {
       const day = {
@@ -64,28 +79,51 @@ function App(props) {
 
     const ButtonList = [];
 
-    for (let i = 1, j = daysInLastMonth - startDayOfMonth + 2; i < startDayOfMonth; i++, j++) {
+    for (
+      let i = 1, j = daysInLastMonth - startDayOfMonth + 2;
+      i < startDayOfMonth;
+      i++, j++
+    ) {
       const day = buildData(`${i}` + nanoid(), j, false, false, false, "last");
-      ButtonList.push(day)
+      ButtonList.push(day);
     }
-    
-    let isTd, isSl = false;
+
+    let isTd,
+      isSl = false;
     for (let i = 0; i < daysInMonth; i++) {
-      const eventI = isLoggedIn? eventsInThisMonth.filter(event => Number(event.date.slice(8,10))===i+1):[];
+      const eventI = isLoggedIn
+        ? eventsInThisMonth.filter(
+            (event) => Number(event.date.slice(8, 10)) === i + 1
+          )
+        : [];
 
       if (i + 1 === Number(today) && isThisMonth) {
         isTd = true;
       }
       if (i + 1 === Number(gDay.slice(8, 10))) {
-        isSl = true
+        isSl = true;
       }
-      const day = buildData(String(i + startDayOfMonth) + nanoid(), i + 1, isTd, eventI.length > 0, isSl, "this");
+      const day = buildData(
+        String(i + startDayOfMonth) + nanoid(),
+        i + 1,
+        isTd,
+        eventI.length > 0,
+        isSl,
+        "this"
+      );
       isTd = isSl = false;
       ButtonList.push(day);
     }
 
     for (let i = ButtonList.length, j = 1; i < 35; i++, j++) {
-      const day = buildData(String(i) + nanoid(), j, false, false, false, "next");
+      const day = buildData(
+        String(i) + nanoid(),
+        j,
+        false,
+        false,
+        false,
+        "next"
+      );
       ButtonList.push(day);
     }
     /* const ButtonList = [{id:`todo`, name:"1", isToday:false, hasEvent:false, isSelected:false, isInThisMonth:false }, 
@@ -113,70 +151,89 @@ function App(props) {
   function toggleIsLoggedIn(isLogin) {
     setIsLoggedIn(isLogin);
   }
-  
 
-/*   console.log(EVENTS);
+  // toggle cancel adding a event
+  function handleCancel(){
+    setAdding(false);
+  }
+
+  /*   console.log(EVENTS);
   EVENTS.pop();
   cookies.set("EVENTS", EVENTS, {path: "/"}); */
 
   // Month Display.
-  const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData} />);
+  const monthDisplay = (
+    <Month
+      id={"monthDisplay"}
+      key={`monthDisplay`}
+      gDay={gDay}
+      clickDay={clickDay}
+      generateData={generateData}
+    />
+  );
 
   // Events
-  const events = isLoggedIn ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
-    startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>) : null;
-  
+  const events = isLoggedIn
+    ? EVENTS.filter((event) => event.date.slice(0, 10) === gDay).map(
+        (event) => (
+          <Event
+            id={event._id}
+            key={event._id}
+            name={event.name}
+            date={event.date}
+            startTime={event.startTime}
+            endTime={event.endTime}
+            description={event.description}
+            creator={event.creator}
+          />
+        )
+      )
+    : null;
+
   // Week Display.
-  const week = (<Week id={"weekDisplay"} key={"WeekDisplay"} />)
-  
+  const week = <Week id={"weekDisplay"} key={"WeekDisplay"} />;
+
   // Mode buttons.
   const modeSwitch = (
     <ModeButton id={"modeButton"} key={"modeButton"} toggleMode={toggleMode} />
   );
 
-
   let grid = monthDisplay;
   if (mode === "Week") {
-    grid = (week);
+    grid = week;
   } else if (mode === "Course") {
-    grid = (week);
+    grid = week;
   }
 
   const goBack = (
-    <button onClick={() => setGDay(todayDate)}>
-      Return to Today
-    </button>
+    <button onClick={() => setGDay(todayDate)}>Return to Today</button>
   );
 
-  const dayPicker = (
-    <input type="date" value={gDay} onChange={handleChange} />
-  );
+  const dayPicker = <input type="date" value={gDay} onChange={handleChange} />;
 
   return (
     <main className="calendarApp stack-large">
       <section className="topBar">
-        <div className="todayDate">
-          {dayPicker}
-        </div>
+        <div className="todayDate">{dayPicker}</div>
         {modeSwitch}
         {gDay === todayDate ? <span></span> : goBack}
         <div className="Account">
           <a href="/Account">Register/Login</a>
         </div>
         <div className="Account">
-          <p>{isLoggedIn? USER.username:null}</p>
+          <p>{isLoggedIn ? USER.username : null}</p>
         </div>
       </section>
       {grid}
       <section className="event_top_bar">
         <div>
           <h2>{mode === "Course" ? "Courses" : "Events"}</h2>
+          {!adding && mode!=="Course" && <button onClick={() => setAdding(true)}>Add a new event</button>}
         </div>
-        <div className="query">
-        </div>
+        <div className="query"></div>
       </section>
-      {mode === "Course" ? <Course data={require('./courses.json')} /> : events}
-      <EventAdd name="Add" />
+      {mode === "Course" ? <Course data={require("./courses.json")} /> : events}
+      {adding && <EventAdd name="Add" handleCancel={handleCancel} />}
     </main>
   );
 }
