@@ -29,7 +29,7 @@ export default function Register(){
 
     return(
         <>
-            <h2>Register</h2>
+            <h2>Sign-up</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
                 {/* email */}
                 <Form.Group controlId="formBasicUsername">
@@ -56,7 +56,7 @@ export default function Register(){
                 {/* submit button */}
                 <Button variant="primary" type="submit"
                     onClick={(e) => handleSubmit(e)}>
-                    Submit
+                    Sign-up
                 </Button>
                 {/* display success message */}
                 {register ? (

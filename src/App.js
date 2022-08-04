@@ -8,9 +8,6 @@ import { nanoid } from "nanoid";
 import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
 import Course from "./components/course/course";
 import EventAdd from "./components/EventAdd";
-import Register from "./components/Register";
-import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 const USER = cookies.get("USER");
@@ -35,6 +32,9 @@ function App(props) {
   const [gDay, setGDay] = useState(todayDate);
   const isThisMonth = thisMonth === gDay.slice(5, 7);
 
+  // login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   function generateData() {
     // {givenDate} is a string of ISO8062, the selected day.
@@ -48,7 +48,7 @@ function App(props) {
     // number of days in last month.
     const daysInLastMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 0).getDate();
     //
-    const eventsInThisMonth = EVENTS.filter(event=>event.date.slice(5,7)===gDay.slice(5,7));
+    const eventsInThisMonth = isLoggedIn? EVENTS.filter(event=>event.date.slice(5,7)===gDay.slice(5,7)):null;
 
     function buildData(id, name, isToday, hasEvent, isSelected, isInThisMonth) {
       const day = {
@@ -71,7 +71,7 @@ function App(props) {
     
     let isTd, isSl = false;
     for (let i = 0; i < daysInMonth; i++) {
-      const eventI = eventsInThisMonth.filter(event => Number(event.date.slice(8,10))===i+1);
+      const eventI = isLoggedIn? eventsInThisMonth.filter(event => Number(event.date.slice(8,10))===i+1):[];
 
       if (i + 1 === Number(today) && isThisMonth) {
         isTd = true;
@@ -108,13 +108,22 @@ function App(props) {
     e.preventDefault();
     setGDay(e.target.value);
   }
-  //console.log(EVENTS);
+
+  // toggle isLogin
+  function toggleIsLoggedIn(isLogin) {
+    setIsLoggedIn(isLogin);
+  }
+  
+
+/*   console.log(EVENTS);
+  EVENTS.pop();
+  cookies.set("EVENTS", EVENTS, {path: "/"}); */
 
   // Month Display.
   const monthDisplay = (<Month id={"monthDisplay"} key={`monthDisplay`} gDay={gDay} clickDay={clickDay} generateData={generateData} />);
 
   // Events
-  const events = EVENTS ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
+  const events = isLoggedIn ? EVENTS.filter(event=>event.date.slice(0, 10)===gDay).map(event => <Event id={event._id} key={event._id} name={event.name} date={event.date}
     startTime={event.startTime} endTime={event.endTime} description={event.description} creator={event.creator}/>) : null;
   
   // Week Display.
@@ -155,7 +164,7 @@ function App(props) {
           <a href="/Account">Register/Login</a>
         </div>
         <div className="Account">
-          <p>{USER.username}</p>
+          <p>{isLoggedIn? USER.username:null}</p>
         </div>
       </section>
       {grid}

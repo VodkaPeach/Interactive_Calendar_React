@@ -61,7 +61,7 @@ export default function Login() {
                 {/* submit button */}
                 <Button variant="primary" type="submit"
                     onClick={(e) => handleSubmit(e)}>
-                    Submit
+                    Login
                 </Button>
                 {/* display success message */}
                 {login ? (
