@@ -35,8 +35,6 @@ function App(props) {
 
   const [adding, setAdding] = useState(false);
 
-
-
   function generateData() {
     // {givenDate} is a string of ISO8062, the selected day.
     const givenDate = new Date(gDay);
@@ -153,7 +151,7 @@ function App(props) {
   }
 
   // toggle cancel adding a event
-  function handleCancel(){
+  function handleCancel() {
     setAdding(false);
   }
 
@@ -193,11 +191,6 @@ function App(props) {
   // Week Display.
   const week = <Week id={"weekDisplay"} key={"WeekDisplay"} />;
 
-  // Mode buttons.
-  const modeSwitch = (
-    <ModeButton id={"modeButton"} key={"modeButton"} toggleMode={toggleMode} />
-  );
-
   let grid = monthDisplay;
   if (mode === "Week") {
     grid = week;
@@ -215,8 +208,18 @@ function App(props) {
     <main className="calendarApp stack-large">
       <section className="topBar">
         <div className="todayDate">{dayPicker}</div>
-        {modeSwitch}
-        {gDay === todayDate ? <span></span> : goBack}
+        <div>
+          <ModeButton id={"Month"} key={"Month"} toggleMode={toggleMode} />
+        </div>
+        <div>
+          <ModeButton id={"Week"} key={"Week"} toggleMode={toggleMode} />
+        </div>
+        <div>
+          <ModeButton id={"Course"} key={"Course"} toggleMode={toggleMode} />
+        </div>
+        <div>
+          {gDay === todayDate || mode === "Course" ? <span></span> : goBack}
+        </div>
         <div className="Account">
           <a href="/Account">Register/Login</a>
         </div>
@@ -228,7 +231,9 @@ function App(props) {
       <section className="event_top_bar">
         <div>
           <h2>{mode === "Course" ? "Courses" : "Events"}</h2>
-          {!adding && mode!=="Course" && <button onClick={() => setAdding(true)}>Add a new event</button>}
+          {!adding && mode !== "Course" && (
+            <button onClick={() => setAdding(true)}>Add a new event</button>
+          )}
         </div>
         <div className="query"></div>
       </section>

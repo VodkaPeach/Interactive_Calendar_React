@@ -1,0 +1,7 @@
+.gridMonth{
+    height: 70%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: minmax(50px, auto);
+    margin-bottom: 1%;
+  }

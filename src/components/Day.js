@@ -21,6 +21,7 @@ function Day(props) {
         fontWeight: fontWeight,
         backgroundColor: bgColor,
         borderColor: isHover,
+        borderRadius: "20% / 50%",
     };
 
     function handleClick() {

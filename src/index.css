@@ -8,17 +8,39 @@ section{
   display: flex;
 }
 main{
-  background-color: aquamarine;
+  background-color: #f6f5f7;
   height: 100vh;
+}
+
+.topBar{
+  justify-content: space-between;
+}
+
+.topBar button{
+  border-radius: 20%;
+  border: 1px solid;
+  font-size: 15px;
+  padding: 5px;
+  background-color: white;
 }
 
 .gridMonth{
   height: 70%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(50px, auto);
+  grid-auto-rows: minmax(70px, auto);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
   margin-bottom: 1%;
 }
+
+.DayInAWeek{
+  font-weight: bold;
+  text-align: center;
+  font-size: large;
+  padding-top: 25%;
+}
+
 .gridWeek{
   height: 70%;
   display: grid;
