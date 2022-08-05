@@ -211,9 +211,9 @@ function App(props) {
         <div>
           <ModeButton id={"Month"} key={"Month"} toggleMode={toggleMode} />
         </div>
-        <div>
+{/*         <div>
           <ModeButton id={"Week"} key={"Week"} toggleMode={toggleMode} />
-        </div>
+        </div> */}
         <div>
           <ModeButton id={"Course"} key={"Course"} toggleMode={toggleMode} />
         </div>
