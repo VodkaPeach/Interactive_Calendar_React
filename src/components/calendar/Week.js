@@ -1,6 +1,6 @@
 //import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
 //Date.prototype.toTemporalInstant = toTemporalInstant;
-import CourseDisplay from "./course/CourseDisplay";
+import CourseDisplay from "../course/CourseDisplay";
 function Week(props) {
     const grid = (
         <div className="gridWeek">
