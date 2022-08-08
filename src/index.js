@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import { UserProvider } from "./context/user.context";
+import { EventsProvider } from "./context/events.context";
 // import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById("root");
@@ -12,7 +13,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <App />
+        <EventsProvider>
+          <App />
+        </EventsProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

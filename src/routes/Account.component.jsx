@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "../components/course/account/Login";
-import Register from "../components/course/account/Register";
+import Login from "../components/account/Login";
+import Register from "../components/account/Register";
 import classes from "./Account.module.css";
 import { useState } from "react";
 

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EventsContext } from "../../context/events.context";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import EventAdd from "./EventAdd";
-const cookies = new Cookies();
-let EVENTS = cookies.get("EVENTS")
 
 function Event(props) {
   const [isEditing, setIsEditing] = useState(false);
+  const { events, setEvents} =useContext(EventsContext);
+  let navigate = useNavigate();
 
   function handleClick() {
     const configuration = {
@@ -17,10 +19,11 @@ function Event(props) {
       },
     };
     axios(configuration)
-      .then((result) => {
-        EVENTS=EVENTS.filter(event=>event._id!==props.id);
-        cookies.set("EVENTS", EVENTS, { path: "/" });
-        window.location.href = "/";
+      .then(() => {
+        const eventList = events;
+        eventList=eventList.filter(event=>event._id!==props.id);
+        setEvents(eventList);
+        navigate("/", {replace:true})
       })
       .catch((error) => {
         error = new Error();

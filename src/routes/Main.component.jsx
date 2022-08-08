@@ -3,15 +3,13 @@ import Event from "../components/event/Event";
 import Week from "../components/calendar/Week";
 import Month from "../components/calendar/Month";
 import ModeButton from "../components/calendar/ModeButton";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../context/user.context";
+import { EventsContext } from "../context/events.context";
 import { nanoid } from "nanoid";
 import { Temporal, toTemporalInstant } from "@js-temporal/polyfill";
 import Course from "../components/course/course";
 import EventAdd from "../components/event/EventAdd";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-const USER = cookies.get("USER");
-const EVENTS = cookies.get("EVENTS");
 
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
@@ -34,6 +32,8 @@ function Main() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [adding, setAdding] = useState(false);
+  const { currentUser } = useContext(UserContext);
+  const { events } = useContext(EventsContext);
 
   function generateData() {
     // {givenDate} is a string of ISO8062, the selected day.
@@ -59,9 +59,9 @@ function Main() {
       0
     ).getDate();
     //
-    const eventsInThisMonth = isLoggedIn
-      ? EVENTS.filter((event) => event.date.slice(5, 7) === gDay.slice(5, 7))
-      : null;
+    const eventsInThisMonth =
+      events &&
+      events.filter((event) => event.date.slice(5, 7) === gDay.slice(5, 7));
 
     function buildData(id, name, isToday, hasEvent, isSelected, isInThisMonth) {
       const day = {
@@ -143,11 +143,6 @@ function Main() {
     setGDay(e.target.value);
   }
 
-  // toggle isLogin
-  function toggleIsLoggedIn(isLogin) {
-    setIsLoggedIn(isLogin);
-  }
-
   // toggle cancel adding a event
   function handleCancel() {
     setAdding(false);
@@ -167,24 +162,24 @@ function Main() {
       generateData={generateData}
     />
   );
-
+  console.log(events);
   // Events
-  const events = isLoggedIn
-    ? EVENTS.filter((event) => event.date.slice(0, 10) === gDay).map(
-        (event) => (
-          <Event
-            id={event._id}
-            key={event._id}
-            name={event.name}
-            date={event.date}
-            startTime={event.startTime}
-            endTime={event.endTime}
-            description={event.description}
-            creator={event.creator}
-          />
-        )
-      )
-    : null;
+  const eventsDisplay =
+    events &&
+    events
+      .filter((event) => event.date.slice(0, 10) === gDay)
+      .map((event) => (
+        <Event
+          id={event._id}
+          key={event._id}
+          name={event.name}
+          date={event.date}
+          startTime={event.startTime}
+          endTime={event.endTime}
+          description={event.description}
+          creator={event.creator}
+        />
+      ));
 
   // Week Display.
   const week = <Week id={"weekDisplay"} key={"WeekDisplay"} />;
@@ -222,14 +217,14 @@ function Main() {
           <a href="/Account">Register/Login</a>
         </div>
         <div className="Account">
-          <p>{isLoggedIn ? USER.username : null}</p>
+          <p>{currentUser && currentUser.username}</p>
         </div>
       </section>
       {grid}
       <section className="event_top_bar">
         <div>
           <h2>{mode === "Course" ? "Courses" : "Events"}</h2>
-          {!adding && mode !== "Course" && (
+          {!adding && mode !== "Course" && currentUser && (
             <button onClick={() => setAdding(true)}>Add a new event</button>
           )}
         </div>
@@ -238,7 +233,7 @@ function Main() {
       {mode === "Course" ? (
         <Course data={require("../courses.json")} />
       ) : (
-        events
+        eventsDisplay
       )}
       {adding && <EventAdd name="Add" handleCancel={handleCancel} />}
     </main>

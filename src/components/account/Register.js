@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { UserContext } from '../../context/user.context';
 
 export default function Register(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [register, setRegister] = useState(false);
+    const { setCurrentUser } = useContext(UserContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,6 +23,8 @@ export default function Register(){
         axios(configuration)
         .then(() => {
             setRegister(true);
+/*             setCurrentUser
+            window.location.href = "/"; */
         })
         .catch((error) => {
             error=new Error();

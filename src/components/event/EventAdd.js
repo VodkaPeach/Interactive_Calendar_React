@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EventsContext } from "../../context/events.context";
+import { UserContext } from "../../context/user.context";
 import { Form, Button } from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-const USER = cookies.get("USER");
-let EVENTS = cookies.get("EVENTS")
 
 export default function EventAdd(props) {
     const [name, setName] = useState("");
@@ -12,7 +11,9 @@ export default function EventAdd(props) {
     const [startTime, setStartTime] = useState(""); 
     const [endTime, setEndTime] = useState("");
     const [description, setDescription] = useState("");
-    const [add, setAdd] = useState(false);
+    const { events, setEvents } = useContext(EventsContext);
+    const { currentUser } = useContext(UserContext);
+    let navigate = useNavigate();
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,22 +27,23 @@ export default function EventAdd(props) {
                 startTime,
                 endTime,
                 description,
-                creator: USER,
+                creator: currentUser,
                 // for edit.
                 id: props.id,
             },
         };
         axios(configuration)
         .then((result) => {
+            const eventList = events;
             if (props.name==="Add"){
-                setAdd(true);
-                EVENTS.push(result.data.result);
+                const newEvent = result.data.result;
+                eventList.push(newEvent);
             }else{
-                EVENTS=EVENTS.filter(event=>event._id!==props.id);
-                EVENTS.push(result.data.event);
+                eventList=eventList.filter(event=>event._id!==props.id);
+                eventList.push(result.data.event);
             }
-            cookies.set("EVENTS", EVENTS, {path: "/"});
-            window.location.href="/";
+            setEvents(eventList);
+            navigate("/", {replace:true});
         })
         .catch((error) => {
             error=new Error();
