@@ -32,3 +32,10 @@
   1. Register and login.
   2. Add/delete/edit an event.
   
+  <2022/08/08>
+  
+  1. Files restructured, now the src folder is organized into a more readiable and controllable manner.
+  
+  2. The usage of cookies is replaced with react context.
+  
+  
