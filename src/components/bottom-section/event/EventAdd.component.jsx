@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { EventsContext } from "../../context/events.context";
-import { UserContext } from "../../context/user.context";
+import { EventsContext } from "../../../context/events.context";
+import { UserContext } from "../../../context/user.context";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
@@ -112,7 +112,7 @@ export default function EventAdd(props) {
                     Submit
                 </Button>
 
-                {props.name==="Add" && <button type="button" onClick={() => props.handleCancel()}>Cancel</button>}
+                {props.name==="Add" && <button type="button" onClick={() => props.handleAddEvent(false)}>Cancel</button>}
                 {props.name==="Edit" && <button type="button" onClick={() => props.handleCancelEdit()}>Cancel</button>}
             </Form>
         </>

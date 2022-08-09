@@ -1,12 +1,11 @@
-import Day from "./Day";
+import Day from "./Day.component";
 import React, { useState } from "react";
 import classes from "./Month.module.css";
 
-import { Temporal, Intl, toTemporalInstant } from "@js-temporal/polyfill";
-Date.prototype.toTemporalInstant = toTemporalInstant;
+import {generateData} from "../../../utils/time";
 
 function Month(props) {
-  const days = props.generateData();
+  const days = generateData(props.gDay, props.events, props.currentUser);
 
   function selectDate(day) {
     props.clickDay(props.gDay.slice(0, 8) + day);

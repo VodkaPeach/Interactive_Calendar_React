@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { EventsContext } from "../../context/events.context";
+import { EventsContext } from "../../../context/events.context";
 import axios from "axios";
-import EventAdd from "./EventAdd";
+import EventAdd from "./EventAdd.component";
 
 function Event(props) {
   const [isEditing, setIsEditing] = useState(false);

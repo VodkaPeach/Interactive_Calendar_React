@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TimeSlotBtn from "../calendar/TimeSlotBtn";
+import TimeSlotBtn from "../../top-section/calendar/TimeSlotBtn.component"
 export default function CourseDisplay(){
     const [courses, setCourses] = useState([])
     const btnList=[]
