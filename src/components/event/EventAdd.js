@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { EventsContext } from "../../context/events.context";
 import { UserContext } from "../../context/user.context";
 import { Form, Button } from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function EventAdd(props) {
@@ -13,7 +12,6 @@ export default function EventAdd(props) {
     const [description, setDescription] = useState("");
     const { events, setEvents } = useContext(EventsContext);
     const { currentUser } = useContext(UserContext);
-    let navigate = useNavigate();
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,7 +32,7 @@ export default function EventAdd(props) {
         };
         axios(configuration)
         .then((result) => {
-            const eventList = events;
+            let eventList = [...events];
             if (props.name==="Add"){
                 const newEvent = result.data.result;
                 eventList.push(newEvent);
@@ -43,10 +41,9 @@ export default function EventAdd(props) {
                 eventList.push(result.data.event);
             }
             setEvents(eventList);
-            navigate("/", {replace:true});
         })
         .catch((error) => {
-            error=new Error();
+            console.log(error.message);
         })
     }
 
@@ -115,7 +112,8 @@ export default function EventAdd(props) {
                     Submit
                 </Button>
 
-                {props.name==="Add" && <button onClick={() => props.handleCancel()}>Cancel</button>}
+                {props.name==="Add" && <button type="button" onClick={() => props.handleCancel()}>Cancel</button>}
+                {props.name==="Edit" && <button type="button" onClick={() => props.handleCancelEdit()}>Cancel</button>}
             </Form>
         </>
     )

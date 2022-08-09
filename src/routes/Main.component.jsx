@@ -28,9 +28,6 @@ function Main() {
   const [gDay, setGDay] = useState(todayDate);
   const isThisMonth = thisMonth === gDay.slice(5, 7);
 
-  // login status
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [adding, setAdding] = useState(false);
   const { currentUser } = useContext(UserContext);
   const { events } = useContext(EventsContext);
@@ -89,7 +86,7 @@ function Main() {
     let isTd,
       isSl = false;
     for (let i = 0; i < daysInMonth; i++) {
-      const eventI = isLoggedIn
+      const eventI = currentUser
         ? eventsInThisMonth.filter(
             (event) => Number(event.date.slice(8, 10)) === i + 1
           )
@@ -228,12 +225,25 @@ function Main() {
             <button onClick={() => setAdding(true)}>Add a new event</button>
           )}
         </div>
-        <div className="query"></div>
       </section>
       {mode === "Course" ? (
         <Course data={require("../courses.json")} />
       ) : (
-        eventsDisplay
+        currentUser && 
+        events
+        .filter((event) => event.date.slice(0, 10) === gDay)
+        .map((event) => (
+          <Event
+            id={event._id}
+            key={event._id}
+            name={event.name}
+            date={event.date}
+            startTime={event.startTime}
+            endTime={event.endTime}
+            description={event.description}
+            creator={event.creator}
+          />
+        ))
       )}
       {adding && <EventAdd name="Add" handleCancel={handleCancel} />}
     </main>
