@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CalendarContext } from "../../../context/calendar.context";
 
 function Day(props) {
+    const { setGDay, gDay } = useContext(CalendarContext);
     // const [hasEvent, setHasEvent] = useState(false);
     let txtColor = "black";
     const fontWeight = props.hasEvent ? "bold" : "normal";
@@ -26,7 +28,7 @@ function Day(props) {
 
     function handleClick() {
         if (props.isInThisMonth === "this") {
-            props.selectDate(nameISO);
+            setGDay(gDay.slice(0, 8)+nameISO);
         }
     }
     const chosen = (

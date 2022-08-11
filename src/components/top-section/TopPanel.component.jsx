@@ -2,31 +2,18 @@ import { Fragment } from "react";
 import Month from "./calendar/Month.component";
 import Week from "./calendar/Week.component";
 import TopBar from "./bar/TopBar.component";
-export default function TopPanel({ gDay, mode, currentUser, events, clickDay, handleChange, 
-toggleMode }) {
-  const monthDisplay = (
-    <Month
-      id={"monthDisplay"}
-      key={`monthDisplay`}
-      gDay={gDay}
-      currentUser={currentUser}
-      events={events}
-      clickDay={clickDay}
-    />
-  );
+import { useContext } from "react";
+import { CalendarContext } from "../../context/calendar.context"
+
+export default function TopPanel() {
+  const {mode} = useContext(CalendarContext);
+  const monthDisplay = <Month key={`monthDisplay`} />;
   const week = <Week id={"weekDisplay"} key={"WeekDisplay"} />;
 
   let grid = mode === "Month" ? monthDisplay : week;
   return (
     <Fragment>
-      <TopBar
-        mode={mode}
-        clickDay={clickDay}
-        gDay={gDay}
-        handleChange={handleChange}
-        toggleMode={toggleMode}
-        currentUser={currentUser}
-      />
+      <TopBar />
       {grid}
     </Fragment>
   );

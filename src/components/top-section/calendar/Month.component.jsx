@@ -1,15 +1,18 @@
 import Day from "./Day.component";
-import React, { useState } from "react";
-import classes from "./Month.module.css";
-
+import React from "react";
 import {generateData} from "../../../utils/time";
+import { useContext } from "react";
+import { CalendarContext } from "../../../context/calendar.context";
+import {EventsContext} from "../../../context/events.context";
+import { UserContext } from "../../../context/user.context";
 
-function Month(props) {
-  const days = generateData(props.gDay, props.events, props.currentUser);
+function Month() {
+  const { gDay } = useContext(CalendarContext);
+  const {events} = useContext(EventsContext);
+  const { currentUser } = useContext(UserContext);
+  const days = generateData(gDay, events, currentUser);
 
-  function selectDate(day) {
-    props.clickDay(props.gDay.slice(0, 8) + day);
-  }
+
   const dayList = days.map((day) => (
     <Day
       id={day.id}
@@ -19,7 +22,6 @@ function Month(props) {
       hasEvent={day.hasEvent}
       isSelected={day.isSelected}
       isInThisMonth={day.isInThisMonth}
-      selectDate={selectDate}
     />
   ));
 

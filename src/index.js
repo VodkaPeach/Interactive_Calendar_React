@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import { UserProvider } from "./context/user.context";
 import { EventsProvider } from "./context/events.context";
+import { CalendarProvider } from "./context/calendar.context";
 // import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById("root");
@@ -13,9 +14,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <EventsProvider>
-          <App />
-        </EventsProvider>
+        <CalendarProvider>
+          <EventsProvider>
+            <App />
+          </EventsProvider>
+        </CalendarProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

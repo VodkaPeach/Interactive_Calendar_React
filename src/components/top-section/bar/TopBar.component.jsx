@@ -1,29 +1,33 @@
 import ModeButton from "../calendar/ModeButton.component";
 import { todayDate } from "../../../utils/time";
+import { useContext } from "react";
+import { CalendarContext } from "../../../context/calendar.context";
+import { UserContext } from "../../../context/user.context";
+export default function TopBar() {
+  const { gDay, mode, setGDay } = useContext(CalendarContext);
+  const { currentUser } = useContext(UserContext);
+  function handleChange(e) {
+    e.preventDefault();
+    setGDay(e.target.value);
+  }
 
-export default function TopBar({
-  mode,
-  clickDay,
-  gDay,
-  handleChange,
-  toggleMode,
-  currentUser,
-}) {
   const goBack = (
-    <button onClick={() => clickDay(todayDate)}>Return to Today</button>
+    <button onClick={() => setGDay(todayDate)}>Return to Today</button>
   );
-  const dayPicker = <input type="date" value={gDay} onChange={handleChange} />;
+  const dayPicker = (
+    <input type="date" value={gDay} onChange={handleChange} />
+  );
   return (
     <section className="topBar">
       <div className="todayDate">{dayPicker}</div>
       <div>
-        <ModeButton id={"Month"} key={"Month"} toggleMode={toggleMode} />
+        <ModeButton id={"Month"} key={"Month"} />
       </div>
       {/*         <div>
           <ModeButton id={"Week"} key={"Week"} toggleMode={toggleMode} />
         </div> */}
       <div>
-        <ModeButton id={"Course"} key={"Course"} toggleMode={toggleMode} />
+        <ModeButton id={"Course"} key={"Course"} />
       </div>
       <div>
         {gDay === todayDate || mode === "Course" ? <span></span> : goBack}
