@@ -3,20 +3,22 @@ import { todayDate } from "../../../utils/time";
 import { useContext } from "react";
 import { CalendarContext } from "../../../context/calendar.context";
 import { UserContext } from "../../../context/user.context";
+import { Link } from "react-router-dom";
 export default function TopBar() {
   const { gDay, mode, setGDay } = useContext(CalendarContext);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   function handleChange(e) {
     e.preventDefault();
     setGDay(e.target.value);
+  }
+  function handleLogout(){
+    setCurrentUser(null);
   }
 
   const goBack = (
     <button onClick={() => setGDay(todayDate)}>Return to Today</button>
   );
-  const dayPicker = (
-    <input type="date" value={gDay} onChange={handleChange} />
-  );
+  const dayPicker = <input type="date" value={gDay} onChange={handleChange} />;
   return (
     <section className="topBar">
       <div className="todayDate">{dayPicker}</div>
@@ -33,7 +35,15 @@ export default function TopBar() {
         {gDay === todayDate || mode === "Course" ? <span></span> : goBack}
       </div>
       <div className="Account">
-        <a href="/Account">Register/Login</a>
+        {!currentUser ? (
+          <button>
+            <Link to="/Account">Register/Login</Link>
+          </button>
+        ) : (
+          <button onClick={handleLogout}>
+            <p>Logout</p>
+          </button>
+        )}
       </div>
       <div className="Account">
         <p>{currentUser && currentUser.username}</p>

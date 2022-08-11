@@ -40,7 +40,7 @@ export default function Login() {
       <h2>Login</h2>
       <Form onSubmit={(e) => handleSubmit(e)}>
         {/* email */}
-        <Form.Group key={"formBasicUsername"} controlId="formBasicUsername">
+        <Form.Group key={"formBasicUsername"} controlId="BasicUsername">
           <Form.Label>User Name</Form.Label>
           <Form.Control
             type="username"
@@ -52,7 +52,7 @@ export default function Login() {
         </Form.Group>
 
         {/* password */}
-        <Form.Group key={"formBasicPassword"} controlId="formBasicPassword">
+        <Form.Group key={"formBasicPassword"} controlId="BasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

@@ -34,7 +34,7 @@ export default function Register(){
             <h2>Sign-up</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
                 {/* email */}
-                <Form.Group controlId="formBasicUsername">
+                <Form.Group key={"formBasicUsername"} controlId="Username">
                     <Form.Label>User Name</Form.Label>
                     <Form.Control type="username"
                         name="Username"
@@ -46,7 +46,7 @@ export default function Register(){
                 </Form.Group>
 
                 {/* password */}
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group key={"formBasicPassword"} controlId="Password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password"
                         name="password"
