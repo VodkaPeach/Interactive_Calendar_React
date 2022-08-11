@@ -36,9 +36,11 @@ export default function EventAdd(props) {
             if (props.name==="Add"){
                 const newEvent = result.data.result;
                 eventList.push(newEvent);
+                props.handleAddEvent(false);
             }else{
                 eventList=eventList.filter(event=>event._id!==props.id);
                 eventList.push(result.data.event);
+                props.handleCancelEdit();
             }
             setEvents(eventList);
         })
