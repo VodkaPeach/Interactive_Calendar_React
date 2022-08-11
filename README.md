@@ -46,3 +46,8 @@ Interactivity:
 
 1. Dismembered Main.component.jsx, code refactor.
 2. Added util folder for storing time related constants and functions.
+
+<2022/08/11>
+
+1. fixed exisiting props drilling with using context instead.
+2. users now can logout.
