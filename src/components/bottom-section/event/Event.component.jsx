@@ -1,27 +1,23 @@
 import React, { useState, useContext } from "react";
 import { EventsContext } from "../../../context/events.context";
 import axios from "axios";
-import EventAdd from "./EventAdd.component";
+import EventForm from "./EventForm.component";
+import { axiosConfig } from "../../../utils/axios-config";
 
 function Event(props) {
   const [isEditing, setIsEditing] = useState(false);
   const { events, setEvents } = useContext(EventsContext);
 
-
   function handleClick() {
-    const configuration = {
-      method: "post",
-      url: "https://calendar-hongxu.herokuapp.com/delete-event",
-      data: {
+    axios(
+      axiosConfig("post", "delete-event", {
         id: props.id,
-      },
-    };
-    axios(configuration)
+      })
+    )
       .then(() => {
         let eventList = [...events];
         eventList = eventList.filter((event) => event._id !== props.id);
         setEvents(eventList);
-        //setCurrentUser("abc");
       })
       .catch((error) => {
         error = new Error();
@@ -52,7 +48,7 @@ function Event(props) {
       {deleteButton}
       {EditButton}
       {isEditing && (
-        <EventAdd
+        <EventForm
           name="Edit"
           handleCancelEdit={handleCancelEdit}
           id={props.id}

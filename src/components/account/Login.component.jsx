@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../context/user.context";
 import { EventsContext } from "../../context/events.context";
-import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FormInput from "../form-input/form-input.component";
+import {axiosConfig} from "../../utils/axios-config";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -15,16 +16,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // set configurations
-    const configuration = {
-      method: "post",
-      url: "https://calendar-hongxu.herokuapp.com/login",
-      data: {
-        username,
-        password,
-      },
-    };
-    axios(configuration)
+    axios(axiosConfig("post", "login", {username, password}))
       .then((result) => {
         setLogin(true);
         setCurrentUser(result.data.user);
@@ -32,52 +24,40 @@ export default function Login() {
         navigate("/", { replace: true });
       })
       .catch((error) => {
-        error = new Error();
+        console.log(error.message);
       });
   };
   return (
     <>
       <h2>Login</h2>
-      <Form onSubmit={(e) => handleSubmit(e)}>
-        {/* email */}
-        <Form.Group key={"formBasicUsername"} controlId="BasicUsername">
-          <Form.Label>User Name</Form.Label>
-          <Form.Control
-            type="username"
-            name="Username"
-            value={username}
-            placeholder="Enter Username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Form.Group>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <FormInput
+          label="Username"
+          type="username"
+          name="Username"
+          value={username}
+          placeholder="Enter Username"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <FormInput
+          label="Password"
+          type="password"
+          name="password"
+          value={password}
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        {/* password */}
-        <Form.Group key={"formBasicPassword"} controlId="BasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-
-        {/* submit button */}
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={(e) => handleSubmit(e)}
-        >
+        <button type="submit" onClick={(e) => handleSubmit(e)}>
           Login
-        </Button>
+        </button>
         {/* display success message */}
         {login ? (
           <p className="text-success">You Are logged in Successfully</p>
         ) : (
           <p className="text-danger">You Are Not Logged in</p>
         )}
-      </Form>
+      </form>
     </>
   );
 }

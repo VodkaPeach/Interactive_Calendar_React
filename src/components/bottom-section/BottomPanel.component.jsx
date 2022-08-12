@@ -1,12 +1,12 @@
 import { useState } from "react";
 import BottomBar from "./bar/BottomBar.component";
 import Course from "./course/course.component";
-import EventAdd from "./event/EventAdd.component";
 import Event from "./event/Event.component"
 import { useContext } from "react";
 import { CalendarContext } from "../../context/calendar.context";
 import { UserContext } from "../../context/user.context";
 import { EventsContext } from "../../context/events.context";
+import EventForm from "./event/EventForm.component";
 export default function BottomPanel() {
   const {mode, gDay} = useContext(CalendarContext);
   const {currentUser} = useContext(UserContext);  
@@ -44,7 +44,7 @@ export default function BottomPanel() {
             />
           ))
       )}
-      {adding && <EventAdd name="Add" handleAddEvent={handleAddEvent} />}
+      {adding && <EventForm name="Add" handleAddEvent={handleAddEvent} />}
     </section>
   );
 }

@@ -1,10 +1,10 @@
-export default FormInput = ({ label, ...otherProps}) => {
-    return (
-        <div className="group">
-            <input className="" {...otherProps}/>
-            <label className="form-input-label">
-                {label}
-            </label>
-        </div>
-    )
-}
+const FormInput = ({ label, ...otherProps }) => {
+  return (
+    <div className="group">
+      <label className="form-input-label">{label}</label>
+      <input className="form-input" {...otherProps} />
+    </div>
+  );
+};
+
+export default FormInput;
