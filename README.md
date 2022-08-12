@@ -1,4 +1,4 @@
-# An interactive single page calendar implemented with React. Connected with a backend that I built: https://github.com/DayDreamWake/calendar-backend.
+# An interactive single page calendar implemented with React. Connected with a backend that I built: https://github.com/VodkaPeach/calendar-backend.
 
 ## I am using it for familiarizing React and other front-end web development techniques. You are welcome to clone, have a look, play around and make your own changes! This project is multiphased. I will continue to update its functionalities as I learn. You can contact me at 1293379294@qq.com.
 
@@ -46,3 +46,8 @@ Interactivity:
 
 1. Dismembered Main.component.jsx, code refactor.
 2. Added util folder for storing time related constants and functions.
+
+<2022/08/11>
+
+1. fixed exisiting props drilling with using context instead.
+2. users now can logout.
