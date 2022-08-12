@@ -8,8 +8,8 @@
 
 Added Display:
 
-1. a calendar in 3 formats: month, week, and course mode.
-2. A event section.
+1. a calendar in 3 formats: Month, Week, and Course mode.
+2. A events/courses section.
 3. Current date.
 4. A date in the month format will display differently based on whether it: is in the current month of display, is selected by clicking and the user input, is hovered upon by mouse.
 5. A search bar.
@@ -39,8 +39,8 @@ Interactivity:
 <2022/08/08>
 
 1. Files restructured, now the src folder is organized into a more readable and controllable manner.
-
 2. The usage of cookies is replaced with react context.
+3. Temporarily disabled the week display mode, since it's basically the same design pattern as the Course mode. 
 
 <2022/08/09>
 
@@ -51,3 +51,10 @@ Interactivity:
 
 1. fixed exisiting props drilling with using context instead.
 2. users now can logout.
+
+<2022/08/12>
+1. created utils/axios-config.js that stores resusable axios configuration generation function.
+2. created form-input.js for that stores a resuable form input element component.
+3. relative repetitive code refactored using 1 & 2
+4. users can now click on grayed out dates (dates from last/next month) on month display and the display will update to the selected month.
+### All major functionalities of a monthly calendar are set. Version 1.0 ready to deploy!
