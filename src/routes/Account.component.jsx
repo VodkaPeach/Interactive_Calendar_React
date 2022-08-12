@@ -45,9 +45,9 @@ export default function Account() {
       <footer className={classes.footer}>
         <p>
           Created by
-          <a href="https://github.com/DayDreamWake" target="_blank">
+          <a href="https://github.com/VodkaPeach" target="_blank">
             {" "}
-            DayDream
+            VodkaPeach
           </a>
         </p>
       </footer>
