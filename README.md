@@ -51,3 +51,10 @@ Interactivity:
 
 1. fixed exisiting props drilling with using context instead.
 2. users now can logout.
+
+<2022/08/12>
+1. created utils/axios-config.js that stores resusable axios configuration generation function.
+2. created form-input.js for that stores a resuable form input element component.
+3. relative repetitive code refactored using 1 & 2
+4. users can now click on grayed out dates (dates from last/next month) on month display and the display will update to the selected month.
+### All major functionalityies of a monthly calendar are set. Version 1.0 ready to deploy!
